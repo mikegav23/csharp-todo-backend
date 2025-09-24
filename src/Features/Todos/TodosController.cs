@@ -1,18 +1,31 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using TodosApp.Infrastructure.Data;
 
 namespace TodosApp.Features.Todos;
-
-public record ReturnMessage (string message);
 
 [ApiController]
 [Route("api/todos")]
 public class TodosController(AppDbContext db) : ControllerBase
 {
     [HttpGet]
-    public ReturnMessage GetAll([FromQuery] string message = "hello")
+    public async Task<IEnumerable<TodoDto>> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 20)
     {
-        return new ReturnMessage(message);
+        take = Math.Clamp(take, 1, 100);
+
+        return await db.Set<Todo>()
+            .AsNoTracking()
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip(skip)
+            .Take(take)
+            .Select(x => new TodoDto(
+                x.Id,
+                x.Title,
+                x.Notes,
+                x.CreatedAt,
+                x.Status
+            ))
+            .ToListAsync();
     }
 
     [HttpPost]

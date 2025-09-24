@@ -9,6 +9,6 @@ POST {{csharp_todo_backend_HostAddress}}/api/todos
 Content-Type: application/json
 
 {
-    "title": "Title",
-    "notes": "Notes",
+    "title": "New note 2",
+    "notes": "Test note for dev"
 }
