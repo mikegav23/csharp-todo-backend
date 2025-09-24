@@ -9,7 +9,7 @@ namespace TodosApp.Features.Todos;
 public class TodosController(AppDbContext db) : ControllerBase
 {
     [HttpGet]
-    public async Task<IEnumerable<TodoDto>> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 20)
+    public async Task<IEnumerable<TodoResponse>> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 20)
     {
         take = Math.Clamp(take, 1, 100);
 
@@ -18,7 +18,7 @@ public class TodosController(AppDbContext db) : ControllerBase
             .OrderByDescending(x => x.CreatedAt)
             .Skip(skip)
             .Take(take)
-            .Select(x => new TodoDto(
+            .Select(x => new TodoResponse(
                 x.Id,
                 x.Title,
                 x.Notes,
@@ -28,15 +28,23 @@ public class TodosController(AppDbContext db) : ControllerBase
             .ToListAsync();
     }
 
-    [HttpPost]
-    public async Task<ActionResult<TodoDto>> Create([FromBody] CreateTodoDto dto)
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<TodoResponse>> GetOne(Guid id)
     {
-        if (string.IsNullOrWhiteSpace(dto.Title))
+        var todo = await db.Set<Todo>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        return todo == null ? NotFound() : Ok(todo.ToDto());
+    }
+
+
+    [HttpPost]
+    public async Task<ActionResult<TodoResponse>> Create([FromBody] CreateTodoRequest req)
+    {
+        if (string.IsNullOrWhiteSpace(req.Title))
         {
             return BadRequest("Todo title is required");
         }
 
-        var todo = new Todo { Title = dto.Title.Trim(), Notes = dto.Notes?.Trim() };
+        var todo = new Todo { Title = req.Title.Trim(), Notes = req.Notes?.Trim() };
         try
         {
             db.Add(todo);

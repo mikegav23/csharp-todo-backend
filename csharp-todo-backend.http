@@ -5,6 +5,11 @@ Accept: application/json
 
 ###
 
+GET {{csharp_todo_backend_HostAddress}}/api/todos/eb20395c-dcdb-4e8b-a02e-0bd4d49b7ef9
+Accept: application/json
+
+###
+
 POST {{csharp_todo_backend_HostAddress}}/api/todos
 Content-Type: application/json
 

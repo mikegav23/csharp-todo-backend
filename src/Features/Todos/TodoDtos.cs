@@ -1,7 +1,16 @@
 namespace TodosApp.Features.Todos;
 
-public record TodoDto(Guid Id, string Title, string? Notes, DateTimeOffset CreatedAt, TodoStatus Status);
+public record TodoResponse(Guid Id, string Title, string? Notes, DateTimeOffset CreatedAt, TodoStatus Status);
 
-public record CreateTodoDto(string Title, string? Notes);
+public class CreateTodoRequest
+{
+    public string Title { get; set; } = default!;
+    public string? Notes { get; set; }
+}
 
-public record UpdateTodoDto(string Title, string? Notes, TodoStatus Status);
+public class UpdateTodoRequest
+{
+    public string Title { get; set; } = default!;
+    public string? Notes { get; set; }
+    public TodoStatus Status { get; set; }
+}
