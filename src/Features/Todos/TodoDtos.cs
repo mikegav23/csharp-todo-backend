@@ -1,4 +1,4 @@
-using TodosApp.Features.Todos.Domain;
+namespace TodosApp.Features.Todos;
 
 public record TodoDto(Guid Id, string Title, string? Notes, DateTimeOffset CreatedAt, TodoStatus Status);
 

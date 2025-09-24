@@ -1,4 +1,4 @@
-namespace TodosApp.Features.Todos.Domain;
+namespace TodosApp.Features.Todos;
 
 public enum TodoStatus { Pending, Completed, Cancelled };
 

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TodosApp.Features.Todos.Domain;
+using TodosApp.Features.Todos;
 
 namespace TodosApp.Infrastructure.Data;
 
