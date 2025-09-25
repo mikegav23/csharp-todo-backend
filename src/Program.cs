@@ -3,6 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendDev", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:3000")   // your Next.js dev origin
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            // add the next line ONLY if you use cookies/auth headers
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddControllers();
 
 // EF Core + Npgsql
@@ -25,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("Frontend");
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
