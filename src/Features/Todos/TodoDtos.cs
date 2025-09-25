@@ -10,7 +10,7 @@ public class CreateTodoRequest
 
 public class UpdateTodoRequest
 {
-    public string Title { get; set; } = default!;
+    public string? Title { get; set; } = default!;
     public string? Notes { get; set; }
-    public TodoStatus Status { get; set; }
+    public TodoStatus? Status { get; set; }
 }

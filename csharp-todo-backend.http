@@ -1,6 +1,6 @@
 @csharp_todo_backend_HostAddress = http://localhost:5206
 
-GET {{csharp_todo_backend_HostAddress}}/api/todos?message=lol
+GET {{csharp_todo_backend_HostAddress}}/api/todos
 Accept: application/json
 
 ###
@@ -16,4 +16,13 @@ Content-Type: application/json
 {
     "title": "New note 2",
     "notes": "Test note for dev"
+}
+
+###
+
+PATCH {{csharp_todo_backend_HostAddress}}/api/todos/ac26ec96-1eb0-4991-8aa1-c88207257e63
+Content-Type: application/json
+
+{
+    "status": 2
 }

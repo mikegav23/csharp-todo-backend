@@ -3,16 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendDev", policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000")   // your Next.js dev origin
+            .WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            // add the next line ONLY if you use cookies/auth headers
-            .AllowCredentials();
+            .AllowAnyMethod();
+            // If you send cookies/Authorization from the browser, also add:
+            // .AllowCredentials();
     });
 });
 
@@ -38,7 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("Frontend");
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors("FrontendDev");
 app.MapControllers();
 app.Run();
